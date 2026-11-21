@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok Authorization</title>
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:680px;margin:40px auto;padding:0 16px;color:#222;background:#fff}a{color:#0645ad}code{background:#f2f2f2;padding:2px 6px;border-radius:4px;word-break:break-all}button{font:inherit;padding:8px 16px;margin-top:12px}@media (prefers-color-scheme:dark){body{background:#111;color:#eee}code{background:#222}a{color:#8ab4f8}}</style>
+</head><body>
+<h1>TikTok authorization</h1>
+<p id="msg">Reading the authorization result…</p>
+<p><code id="code"></code></p>
+<button id="copy" hidden>Copy</button>
+<script>
+const q = new URLSearchParams(location.search);
+const code = q.get("code"), err = q.get("error_description") || q.get("error");
+const msg = document.getElementById("msg"), out = document.getElementById("code"), btn = document.getElementById("copy");
+if (code) {
+  msg.textContent = "Done. Copy this whole line and send it to the operator:";
+  out.textContent = location.href;
+  btn.hidden = false;
+  btn.onclick = () => navigator.clipboard.writeText(location.href).then(() => btn.textContent = "Copied");
+} else {
+  msg.textContent = err ? "TikTok returned an error: " + err : "No authorization code in this link.";
+}
+</script>
+</body></html>
